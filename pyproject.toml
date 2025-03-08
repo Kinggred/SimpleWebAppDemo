@@ -1,0 +1,61 @@
+
+[project]
+name = "SimpleWebAppDemo"
+readme = "README.md"
+requires-python = ">=2.11"
+description = "SimpleWebAppDemo"
+dynamic = ["version"]
+dependencies = [
+    "pydantic>=1.5,<3",
+    "pydantic-settings>=1.2,<3",
+    "fastapi[standard]",
+    "mangum",
+    "boto3",
+    "sqlmodel",
+    "psycopg2-binary",
+    "aws-lambda-powertools",
+    "pyjwt[crypto]",
+    "passlib[bcrypt]"
+]
+
+[project.optional-dependencies]
+local = [
+    "black",
+    "pytest",
+    "mypy",
+    "pylint",
+    "isort",
+    "uvicorn",
+    "httpx",
+    "pytest-mock",
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 2
+line_length = 119
+
+[tool.black]
+line-length = 119
+
+[tool.pylint.messages_control]
+disable = "R,C,W,E,F"
+enable = ["F","E","unreachable","duplicate-key","unnecessary-semicolon","global-variable-not-assigned","unused-variable","binary-op-exception","bad-format-string","anomalous-backslash-in-string","bad-open-mode","unused-import"]
+extension-pkg-whitelist = "pydantic"
+
+[tool.pylint.format]
+max-line-length = "119"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+env_override_existing_values = 0
+env_files = [".env.test", ".env.local"]
+markers = [
+    "cassette"
+]
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+ignore_missing_imports=true
+follow_imports="silent"
+disable_error_code="annotation-unchecked"
