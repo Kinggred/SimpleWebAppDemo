@@ -1,3 +1,5 @@
 compile:
-	pip-compile --local --output-file=requirements.txt pyproject.toml
+	pip-compile --extra=local
 
+run-server:
+	fastapi dev SWADemo/api/api.py

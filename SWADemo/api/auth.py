@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
+from uuid import UUID
 
 import jwt
 from botocore.session import Session
@@ -28,7 +29,6 @@ def get_password_hash(password):
 
 def authenticate_user(username: str, password: str, db: Session = Depends(get_session)):
     user = crud_users.get_by_username(db, username)
-
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -55,13 +55,14 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username = payload.get("sub")
-        if username is None:
+        user_id: UUID = payload.get("sub")
+        username: str = payload.get("username")
+        if id is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(username=username, id=user_id)
     except InvalidTokenError:
         raise credentials_exception
-    user = crud_users.get_by_username(db, token_data.username)
+    user = crud_users.get(db, token_data.id)
     if user is None:
         raise credentials_exception
     return user

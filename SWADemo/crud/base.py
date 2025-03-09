@@ -30,13 +30,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         return object_to_add
 
     def get(self, db: Session, id: UUID) -> ModelType | None:
-        data = db.exec(select(self.model).where(self.model.enabled, self.model.id == id)).first()
+        data = db.exec(select(self.model).where(self.model.id == id)).first()
         if data:
             logger.info(f"Retreived {self.model.__name__}: {id}")
             return data
 
     def get_multi(self, db: Session, limit: int) -> List[ModelType]:
-        obj = db.exec(select(self.model).where(self.model.enabled).limit(limit)).all()
+        obj = db.exec(select(self.model).limit(limit)).all()
         logger.info(f"Retreived {len(obj)} {self.model.__name__}s")
 
         return obj
@@ -49,7 +49,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         return obj
 
     def remove(self, db: Session, *, id: UUID) -> ModelType:
-        db_obj = db.exec(select(self.model).where(self.model.enabled, self.model.id == id)).first()
+        db_obj = db.exec(select(self.model).where(self.model.id == id)).first()
         if not db_obj:
             raise HTTPException(status_code=404, detail="Not found")
         db_obj.enabled = False

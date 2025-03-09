@@ -6,4 +6,5 @@ class Token(SQLModel):
 
 
 class TokenData(SQLModel):
+    username: str | None = None
     id: str | None = None

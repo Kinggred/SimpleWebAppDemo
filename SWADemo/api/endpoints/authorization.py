@@ -23,7 +23,7 @@ async def login_for_access_token(
 ) -> Token:
     user = crud_users.get_by_username(db, form_data.username)
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
+    access_token = create_access_token(data={"sub": user.id.__str__(), "username": user.username}, expires_delta=access_token_expires)
     return Token(access_token=access_token, token_type="bearer")
 
 
