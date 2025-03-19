@@ -10,6 +10,13 @@ class File(BaseModel, table=True):
     key: str
     uploaded_by: UUID = Field(default_factory=uuid4, foreign_key="user.id")
 
+
 class FileView(SQLModel):
     name: str | None
     id: UUID
+
+
+class FileCreate(SQLModel):
+    name: str | None = None
+    key: str
+    uploaded_by: UUID

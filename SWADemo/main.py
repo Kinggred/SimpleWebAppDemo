@@ -1,10 +1,12 @@
-from logging import getLogger
+from logging import DEBUG, getLogger
 
 from mangum import Mangum
+
 from SWADemo.api.api import app
 from SWADemo.models.enums.events import EventType
 
 logger = getLogger(__name__)
+logger.setLevel(DEBUG)
 
 
 def recognize_event(event) -> EventType:

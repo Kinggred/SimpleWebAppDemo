@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Sample SAM Template for FastAPI using Function URLs instead of API Gateway
+
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 128
+
+Resources:
+  ItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: SWADemo/main.handler
+      Runtime: python3.11
+      Architectures:
+        - x86_64
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowMethods: 
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          AllowHeaders:
+            - Content-Type
+            - Authorization
+          AllowOrigins:
+            - "*"
+
+Outputs:
+  FunctionUrl:
+    Description: "Lambda Function URL"
+    Value: !GetAtt ItemFunctionUrl.FunctionUrl
+

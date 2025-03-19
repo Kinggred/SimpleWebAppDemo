@@ -1,10 +1,10 @@
 import logging
-from typing import TypeVar, Generic, Type, List
+from typing import Generic, List, Type, TypeVar
 from uuid import UUID
 
 from fastapi import HTTPException
 from psycopg2 import IntegrityError
-from sqlmodel import Session, select, SQLModel
+from sqlmodel import Session, SQLModel, select
 
 from SWADemo.models.base import BaseModel
 

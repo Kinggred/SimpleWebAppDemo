@@ -1,5 +1,7 @@
-from sqlmodel import Session, create_engine, SQLModel
+from sqlmodel import Session, SQLModel, create_engine
+
 from SWADemo.config import settings
+
 
 def create_db_and_tables():
     """
@@ -9,8 +11,13 @@ def create_db_and_tables():
     engine = create_engine(settings.POSTGRES_DSN)
     SQLModel.metadata.create_all(engine)
 
+
 def get_session():
-    engine = create_engine(settings.POSTGRES_DSN)
+    engine = create_engine(settings.POSTGRES_DSN, connect_args={"connect_timeout": 5})
     with Session(engine) as session:
         yield session
 
+
+def get_conn():
+    engine = create_engine(settings.POSTGRES_DSN)
+    return Session(engine)
