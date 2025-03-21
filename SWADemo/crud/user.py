@@ -15,9 +15,5 @@ class CRUDUser(CRUDBase[User, UserCreate]):
             raise HTTPException(status_code=404, detail="User not found")
         return user
 
-    def get_user_files(self, db: Session, user: User):
-        files = db.exec(select(File).where(File.uploaded_by)).all()
-        return files
-
 
 crud_users = CRUDUser(User)

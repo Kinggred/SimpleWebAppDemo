@@ -15,7 +15,8 @@ dependencies = [
     "psycopg2-binary",
     "aws-lambda-powertools",
     "pyjwt[crypto]",
-    "passlib[bcrypt]"
+    "passlib[bcrypt]",
+    "python-multipart"
 ]
 
 [project.optional-dependencies]
